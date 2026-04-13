@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>找朋友 · Zhao Peng You</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== SCREENS ===== -->
+
+<div id="screen-lobby" class="screen active">
+  <div class="lobby-box">
+    <h1>找朋友</h1>
+    <p class="subtitle">Zhao Peng You · Find a Friend</p>
+    <div class="form-group">
+      <input id="player-name" type="text" placeholder="Your name" maxlength="20" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <input id="room-code-input" type="text" placeholder="Room code (leave blank to create)" maxlength="8"
+             style="text-transform:uppercase" autocomplete="off" />
+    </div>
+    <button id="btn-join" class="btn-primary">Enter Room</button>
+    <p id="lobby-error" class="error-msg hidden"></p>
+  </div>
+</div>
+
+<div id="screen-room" class="screen">
+  <div class="room-header">
+    <span id="room-code-display" class="room-code-badge"></span>
+    <button id="btn-copy-code" class="btn-sm" title="Copy room code">📋 Copy</button>
+    <span id="room-status-label" class="status-badge">Waiting</span>
+  </div>
+
+  <div class="player-list" id="player-list"></div>
+
+  <div class="room-footer">
+    <button id="btn-start" class="btn-primary" disabled>Start Game</button>
+    <p class="hint">You need at least 4 players to start.</p>
+  </div>
+</div>
+
+<div id="screen-game" class="screen">
+
+  <!-- Top bar -->
+  <div class="game-topbar">
+    <span id="g-room-code" class="room-code-badge small"></span>
+    <span id="g-phase-label" class="phase-label">—</span>
+    <span id="g-trump-label" class="trump-label">No trump yet</span>
+    <span id="g-my-pts" class="my-pts-label"></span>
+    <span id="g-round-label" class="round-label">Round 1</span>
+  </div>
+
+  <!-- Main layout: game area + chat sidebar -->
+  <div class="game-main">
+
+    <!-- Left: game content -->
+    <div class="game-content">
+
+      <!-- Opponents row -->
+      <div id="opponents-row" class="opponents-row"></div>
+
+      <!-- Table area -->
+      <div class="table-area">
+        <!-- Deck / drawn pile (draw phase) -->
+        <div id="draw-deck-area" class="hidden">
+          <div id="draw-deck-visual" class="card-back big-card" title="Click to draw">
+            <span>🂠</span><br/><span id="deck-remaining">0</span>
+          </div>
+          <p id="draw-prompt" class="prompt-text"></p>
+          <button id="btn-auto-draw" class="btn-secondary" style="margin-top:8px;font-size:0.85em;">Auto-draw: OFF</button>
+        </div>
+
+        <!-- Current trick -->
+        <div id="trick-area" class="trick-area">
+          <div id="trick-plays" class="trick-plays"></div>
+          <p id="trick-prompt" class="prompt-text"></p>
+        </div>
+
+        <!-- Round end summary -->
+        <div id="round-end-area" class="hidden round-end-box">
+          <h3>Round Over</h3>
+          <div id="round-summary"></div>
+          <button id="btn-next-round" class="btn-primary">Draw Cards for Next Round</button>
+        </div>
+
+        <!-- Game end -->
+        <div id="game-end-area" class="hidden game-end-box">
+          <h2>🎉 Game Over!</h2>
+          <div id="game-end-summary"></div>
+        </div>
+      </div>
+
+      <!-- Buried cards (burying phase) -->
+      <div id="bury-area" class="hidden bury-area">
+        <h4>Select cards to bury</h4>
+        <p id="bury-hint" class="hint"></p>
+        <div id="bury-cards" class="card-row"></div>
+        <button id="btn-confirm-bury" class="btn-primary" disabled>Confirm Bury</button>
+      </div>
+
+      <!-- Calling phase -->
+      <div id="call-area" class="hidden call-area">
+        <h4>Call your teammate(s)</h4>
+        <div id="call-slots"></div>
+        <button id="btn-confirm-calls" class="btn-primary">Confirm Calls</button>
+        <p class="hint" id="call-hint"></p>
+      </div>
+
+      <!-- Player hand -->
+      <div class="hand-area">
+        <div id="my-hand" class="card-row"></div>
+        <div class="hand-actions">
+          <button id="btn-flip-trump" class="btn-secondary hidden">Flip as Trump</button>
+          <button id="btn-play-cards" class="btn-primary hidden" disabled>Play Selected</button>
+        </div>
+      </div>
+
+      <!-- Status bar -->
+      <div id="status-bar" class="status-bar">Connecting…</div>
+
+    </div><!-- /game-content -->
+
+    <!-- Right: chat sidebar -->
+    <div class="chat-sidebar">
+      <div class="chat-header">Chat</div>
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-row">
+        <input id="chat-input" type="text" placeholder="Say something…" maxlength="200" autocomplete="off" />
+        <button id="btn-send-chat" class="btn-sm">Send</button>
+      </div>
+    </div>
+
+  </div><!-- /game-main -->
+
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
